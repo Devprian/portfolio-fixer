@@ -35,7 +35,7 @@ const projects = [
 
 function ProjectCard({ p }: { p: (typeof projects)[number] }) {
   return (
-    <article className="w-[300px] sm:w-[360px] shrink-0 rounded-2xl border border-border bg-card p-5 sm:p-6 flex flex-col min-h-[260px] transition-colors hover:border-brand/50">
+    <article className="w-[280px] sm:w-[340px] md:w-[360px] shrink-0 rounded-2xl border border-border bg-card p-5 sm:p-6 flex flex-col min-h-[260px] transition-colors hover:border-brand/50">
       <div className="flex items-center justify-between gap-2">
         <p className="font-mono text-[11px] text-brand truncate">{p.stack}</p>
         {p.status && (
@@ -77,9 +77,6 @@ function ProjectCard({ p }: { p: (typeof projects)[number] }) {
 }
 
 export function Experience() {
-  // Duplicate the list so the marquee loops seamlessly
-  const loop = [...projects, ...projects];
-
   return (
     <section id="experience" className="py-16 sm:py-24 border-t border-border overflow-hidden">
       <motion.div
@@ -91,13 +88,20 @@ export function Experience() {
       >
         <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Selected work</p>
         <h2 className="mt-3 font-display text-3xl">Things I've built.</h2>
-        <p className="mt-2 text-sm text-muted-foreground">Hover to pause.</p>
+        <p className="mt-2 text-sm text-muted-foreground">Hover or touch &amp; hold to pause.</p>
       </motion.div>
 
-      <div className="marquee-wrapper marquee-mask mt-10 overflow-hidden">
-        <div className="marquee-track flex gap-6 pl-6">
-          {loop.map((p, i) => (
-            <ProjectCard key={`${p.name}-${i}`} p={p} />
+      <div className="marquee-wrapper marquee-mask mt-10">
+        <div className="marquee-track">
+          {/* original set */}
+          {projects.map((p, i) => (
+            <ProjectCard key={`a-${i}`} p={p} />
+          ))}
+          {/* duplicated set for seamless loop */}
+          {projects.map((p, i) => (
+            <div key={`b-${i}`} aria-hidden="true">
+              <ProjectCard p={p} />
+            </div>
           ))}
         </div>
       </div>
